@@ -1,0 +1,48 @@
+<html lang="ko"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>네이버 로그인 콜백</title>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+</head>
+<body>
+    <div class="loading-container">
+        <p>네이버 로그인 처리중...</p>
+    </div>
+
+    <script type="text/javascript">
+        var naver_id_login = new naver_id_login("bjBDg6yQRvSIG2BEqnjM", "http://localhost:8080/auth/naverlogin/callback");
+        
+        function naverSignInCallback() {
+            var email = naver_id_login.getProfileData('email');
+            var name = naver_id_login.getProfileData('name');
+            var token = naver_id_login.oauthParams.access_token;
+            
+            fetch('/auth/naverlogin/callback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    token: token
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/';  // 성공 시 메인 페이지로 리다이렉트
+                } else {
+                    window.location.href = '/auth/login/callback';  // 실패 시 로그인 페이지로
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = '/auth/login/callback';  // 에러 시 로그인 페이지로
+            });
+        }
+
+        naver_id_login.get_naver_userprofile("naverSignInCallback()");
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>홈</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/fashion-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+    .trending-clothes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+    }
+
+    .clothes-item {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .clothes-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .clothes-item img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .like-btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #ff4757;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .like-btn:hover {
+      background: #ff6b81;
+    }
+
+    .login-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .popup-content {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .social-login-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="/" class="logo">LookMate</a>
+      <div class="nav-links">
+        <% if (user) { %>
+          <a href="/trending" class="btn">트렌딩</a>
+          <a href="/closet" class="btn">내 옷장</a>
+          <a href="/mypage" class="btn">마이페이지</a>
+          <a href="/auth/logout" class="btn btn-primary">로그아웃</a>
+        <% } else { %>
+          <a href="/auth/login" class="btn btn-primary">로그인</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>나만의 스타일을 찾아보세요</h1>
+      <p>최신 트렌드와 개성 있는 패션을 만나보세요</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="trending-clothes">
+      <% clothes.forEach(item => { %>
+        <div class="clothes-item">
+          <img src="<%= item.imageUrl %>" alt="<%= item.name %>">
+          <button class="like-btn" data-id="<%= item._id %>" 
+                  onclick="handleLike('<%= item._id %>')">
+            좋아요
+          </button>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html> 

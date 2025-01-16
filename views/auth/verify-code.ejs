@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>인증코드 확인</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .verify-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .code-input {
+            letter-spacing: 8px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <h2>인증코드 확인</h2>
+        <% if (error) { %>
+            <div class="message error"><%= error %></div>
+        <% } %>
+        <form class="verify-form" action="/auth/verify-code" method="POST">
+            <input type="hidden" name="email" value="<%= email %>">
+            <div class="form-group">
+                <label for="code">인증코드 입력</label>
+                <input type="text" id="code" name="code" 
+                       class="form-control code-input" 
+                       maxlength="6" 
+                       pattern="[A-Za-z0-9]{6}"
+                       required>
+            </div>
+            <button type="submit" class="btn btn-primary">확인</button>
+        </form>
+    </div>
+</body>
+</html> 
